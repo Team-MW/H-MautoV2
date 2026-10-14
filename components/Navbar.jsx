@@ -1,14 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Menu, X, ArrowRight } from "lucide-react";
+import { Phone, Menu, X, ArrowRight, ChevronRight, Clock, MapPin } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { business, navbar } = siteConfig;
+
+  // Verrouillage du scroll en arrière-plan lorsque le menu mobile est ouvert
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   const toggleMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
@@ -22,14 +34,15 @@ export default function Navbar() {
     <header className="navbar-header">
       <div className="container">
         <div className="navbar-container">
-          {/* Logo */}
-          <Link href="#hero" className="navbar-logo" onClick={closeMenu}>
+          {/* Logo avec dimensionnement fluide */}
+          <Link href="#hero" className="navbar-logo" onClick={closeMenu} aria-label={`${business.name} - Retour à l'accueil`}>
             <Image
               src={business.logo.src}
               alt={business.logo.alt}
               width={business.logo.width}
               height={business.logo.height}
               priority
+              className="navbar-logo-img"
             />
           </Link>
 
@@ -51,8 +64,8 @@ export default function Navbar() {
               className="navbar-phone-link"
               aria-label={navbar.phoneButton.ariaLabel}
             >
-              <Phone size={16} strokeWidth={2.5} color="var(--color-primary)" />
-              <span>{business.phone}</span>
+              <Phone size={17} strokeWidth={2.5} color="var(--color-primary)" />
+              <span className="navbar-phone-text">{business.phone}</span>
             </a>
 
             <Link href={navbar.ctaButton.href} className="btn btn-primary navbar-cta-desktop">
@@ -60,7 +73,7 @@ export default function Navbar() {
               <ArrowRight size={15} strokeWidth={2.5} />
             </Link>
 
-            {/* Bouton burger mobile */}
+            {/* Bouton burger mobile soigné */}
             <button
               type="button"
               className="navbar-burger"
@@ -68,7 +81,7 @@ export default function Navbar() {
               aria-label={isMobileMenuOpen ? navbar.menuCloseLabel : navbar.menuOpenLabel}
               aria-expanded={isMobileMenuOpen}
             >
-              {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
@@ -84,53 +97,71 @@ export default function Navbar() {
           className="mobile-drawer"
           onClick={(e) => e.stopPropagation()}
         >
+          {/* Haut du tiroir */}
           <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div className="mobile-drawer-header">
               <Image
                 src={business.logo.src}
                 alt={business.logo.alt}
-                width={170}
-                height={38}
+                width={150}
+                height={34}
+                className="mobile-drawer-logo"
               />
               <button
                 type="button"
                 onClick={closeMenu}
                 aria-label={navbar.menuCloseLabel}
-                style={{ color: "#ffffff", padding: "6px" }}
+                className="mobile-drawer-close"
               >
-                <X size={24} />
+                <X size={20} />
               </button>
             </div>
 
+            {/* Liens de navigation avec icône chevron et zone tactile optimale */}
             <ul className="mobile-nav-links">
               {navbar.navLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} onClick={closeMenu}>
-                    {link.label}
+                    <span>{link.label}</span>
+                    <ChevronRight size={16} color="var(--color-primary)" />
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <a
-              href={`tel:${business.phoneRaw}`}
-              className="btn btn-outline-white"
-              style={{ width: "100%" }}
-            >
-              <Phone size={16} />
-              <span>{business.phone}</span>
-            </a>
-            <Link
-              href={navbar.ctaButton.href}
-              className="btn btn-primary"
-              style={{ width: "100%" }}
-              onClick={closeMenu}
-            >
-              <span>{navbar.ctaButton.label}</span>
-              <ArrowRight size={16} />
-            </Link>
+          {/* Bas du tiroir : Coordonnées rapides & Actions */}
+          <div className="mobile-drawer-footer">
+            <div className="mobile-drawer-info">
+              <p className="mobile-drawer-info-item">
+                <MapPin size={15} color="var(--color-primary)" />
+                <span>{business.address.city} (24)</span>
+              </p>
+              <p className="mobile-drawer-info-item">
+                <Clock size={15} color="var(--color-primary)" />
+                <span>{business.hoursSummary}</span>
+              </p>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <a
+                href={`tel:${business.phoneRaw}`}
+                className="btn btn-outline-white"
+                style={{ width: "100%", padding: "12px" }}
+              >
+                <Phone size={16} />
+                <span>{business.phone}</span>
+              </a>
+              <Link
+                href={navbar.ctaButton.href}
+                className="btn btn-primary"
+                style={{ width: "100%", padding: "12px" }}
+                onClick={closeMenu}
+              >
+                <span>{navbar.ctaButton.label}</span>
+                <ArrowRight size={16} />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
