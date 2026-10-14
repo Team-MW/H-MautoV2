@@ -1,5 +1,5 @@
 /* ==========================================================================
-   HM AUTO - Design System CSS
+   HM AUTO - Design System CSSb f
    Direction artistique : Inspirée fidèlement de la maquette de référence
    Palette : Noir profond (#0d0f12), Bleu cobalt électrique (#1e56ed), Blanc pur (#ffffff)
    Typographie : Sans-serif moderne, puissante et lisible (Outfit / Inter)
@@ -45,7 +45,9 @@
 }
 
 /* Reset et règles de base */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1147,13 +1149,17 @@ img {
   }
 
   body {
-    padding-bottom: 56px; /* Évite de masquer le contenu sous la barre */
+    padding-bottom: 56px;
+    /* Évite de masquer le contenu sous la barre */
   }
 }
 
 /* Accessibilité pour les utilisateurs avec réduction de mouvement */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
