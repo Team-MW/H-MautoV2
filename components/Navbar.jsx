@@ -10,19 +10,23 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { business, navbar } = siteConfig;
 
-  // Verrouillage du scroll en arrière-plan lorsque le menu mobile est ouvert
+  // Verrouille le défilement en arrière-plan lorsque le menu mobile est ouvert
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
 
-  const toggleMenu = () => {
+  const toggleMenu = (e) => {
+    e.stopPropagation();
     setIsMobileMenuOpen((prev) => !prev);
   };
 
@@ -31,63 +35,70 @@ export default function Navbar() {
   };
 
   return (
-    <header className="navbar-header">
-      <div className="container">
-        <div className="navbar-container">
-          {/* Logo avec dimensionnement fluide */}
-          <Link href="#hero" className="navbar-logo" onClick={closeMenu} aria-label={`${business.name} - Retour à l'accueil`}>
-            <Image
-              src={business.logo.src}
-              alt={business.logo.alt}
-              width={business.logo.width}
-              height={business.logo.height}
-              priority
-              className="navbar-logo-img"
-            />
-          </Link>
-
-          {/* Navigation Desktop */}
-          <nav aria-label="Navigation principale">
-            <ul className="navbar-nav">
-              {navbar.navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href}>{link.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* Actions Droite */}
-          <div className="navbar-actions">
-            <a
-              href={`tel:${business.phoneRaw}`}
-              className="navbar-phone-link"
-              aria-label={navbar.phoneButton.ariaLabel}
+    <>
+      <header className="navbar-header">
+        <div className="container">
+          <div className="navbar-container">
+            {/* Logo avec dimensionnement fluide */}
+            <Link
+              href="#hero"
+              className="navbar-logo"
+              onClick={closeMenu}
+              aria-label={`${business.name} - Retour à l'accueil`}
             >
-              <Phone size={17} strokeWidth={2.5} color="var(--color-primary)" />
-              <span className="navbar-phone-text">{business.phone}</span>
-            </a>
-
-            <Link href={navbar.ctaButton.href} className="btn btn-primary navbar-cta-desktop">
-              <span>{navbar.ctaButton.label}</span>
-              <ArrowRight size={15} strokeWidth={2.5} />
+              <Image
+                src={business.logo.src}
+                alt={business.logo.alt}
+                width={business.logo.width}
+                height={business.logo.height}
+                priority
+                className="navbar-logo-img"
+              />
             </Link>
 
-            {/* Bouton burger mobile soigné */}
-            <button
-              type="button"
-              className="navbar-burger"
-              onClick={toggleMenu}
-              aria-label={isMobileMenuOpen ? navbar.menuCloseLabel : navbar.menuOpenLabel}
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+            {/* Navigation Desktop */}
+            <nav aria-label="Navigation principale">
+              <ul className="navbar-nav">
+                {navbar.navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href}>{link.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Actions Droite */}
+            <div className="navbar-actions">
+              <a
+                href={`tel:${business.phoneRaw}`}
+                className="navbar-phone-link"
+                aria-label={navbar.phoneButton.ariaLabel}
+              >
+                <Phone size={17} strokeWidth={2.5} color="var(--color-primary)" />
+                <span className="navbar-phone-text">{business.phone}</span>
+              </a>
+
+              <Link href={navbar.ctaButton.href} className="btn btn-primary navbar-cta-desktop">
+                <span>{navbar.ctaButton.label}</span>
+                <ArrowRight size={15} strokeWidth={2.5} />
+              </Link>
+
+              {/* Bouton burger mobile */}
+              <button
+                type="button"
+                className="navbar-burger"
+                onClick={toggleMenu}
+                aria-label={isMobileMenuOpen ? navbar.menuCloseLabel : navbar.menuOpenLabel}
+                aria-expanded={isMobileMenuOpen}
+              >
+                {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Menu tiroir mobile */}
+      {/* Menu tiroir mobile - Rendu HORS du header pour éviter tout bug de stacking context lié au backdrop-filter */}
       <div
         className={`mobile-drawer-overlay ${isMobileMenuOpen ? "open" : ""}`}
         onClick={closeMenu}
@@ -165,6 +176,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }
