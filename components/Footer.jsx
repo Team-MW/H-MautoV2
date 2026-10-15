@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Phone, MapPin } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 
 export default function Footer() {
@@ -15,13 +16,27 @@ export default function Footer() {
               <Image
                 src={business.logo.src}
                 alt={business.logo.alt}
-                width={190}
-                height={44}
+                width={200}
+                height={46}
               />
             </div>
-            <p style={{ fontSize: "0.88rem", lineHeight: "1.6", maxWidth: "380px" }}>
+            <p style={{ fontSize: "0.88rem", lineHeight: "1.6", maxWidth: "380px", marginBottom: "16px" }}>
               {footer.description}
             </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.85rem" }}>
+              <p style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <MapPin size={15} color="var(--color-primary)" />
+                <span>{business.address.full}</span>
+              </p>
+              <p style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <Phone size={15} color="var(--color-primary)" />
+                <span>Ligne 1 : <a href={`tel:${business.phoneRaw}`} style={{ color: "#ffffff", fontWeight: 700 }}>{business.phone}</a></span>
+              </p>
+              <p style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <Phone size={15} color="var(--color-primary)" />
+                <span>Ligne 2 : <a href={`tel:${business.phoneSecondaryRaw}`} style={{ color: "#ffffff", fontWeight: 700 }}>{business.phoneSecondary}</a></span>
+              </p>
+            </div>
           </div>
 
           {/* Navigation */}

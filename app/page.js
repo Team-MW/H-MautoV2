@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import EmergencyBanner from "@/components/EmergencyBanner";
+import PosterShowcase from "@/components/PosterShowcase";
 import Services from "@/components/Services";
 import WhyUs from "@/components/WhyUs";
 import AppointmentForm from "@/components/AppointmentForm";
@@ -16,6 +17,7 @@ export default function Home() {
       <main id="main-content">
         <Hero />
         <EmergencyBanner />
+        <PosterShowcase />
         <Services />
         <WhyUs />
         <AppointmentForm />

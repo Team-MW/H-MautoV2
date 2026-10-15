@@ -6,10 +6,10 @@
    ========================================================================== */
 
 :root {
-  --color-primary: #1e56ed;
-  --color-primary-hover: #1646c2;
-  --color-primary-soft: #eff4ff;
-  --color-primary-glow: rgba(30, 86, 237, 0.25);
+  --color-primary: #ffcc00;
+  --color-primary-hover: #e6b800;
+  --color-primary-soft: #fffbeb;
+  --color-primary-glow: rgba(255, 204, 0, 0.35);
 
   --color-dark-bg: #0d0f12;
   --color-dark-surface: #14171d;
@@ -25,6 +25,7 @@
   --color-text-muted-dark: #586069;
   --color-text-light: #ffffff;
   --color-text-muted-light: #9ea7b3;
+  --color-accent-red: #ef4444;
 
   --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -170,13 +171,15 @@ img {
 
 .btn-primary {
   background-color: var(--color-primary);
-  color: #ffffff;
+  color: #0d0f12;
+  font-weight: 900;
   border: 1px solid var(--color-primary);
 }
 
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
+  color: #0d0f12;
   box-shadow: 0 4px 14px var(--color-primary-glow);
 }
 
@@ -1251,6 +1254,101 @@ img {
   font-size: 0.78rem;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+/* Section Affiche Officielle HM AUTO 24 */
+.poster-section {
+  background-color: var(--color-dark-bg);
+  color: #ffffff;
+  padding: 84px 0;
+  border-top: 1px solid var(--color-dark-border);
+  border-bottom: 1px solid var(--color-dark-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.poster-frame-wrapper {
+  position: relative;
+  margin-top: 36px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 10px 40px rgba(255, 204, 0, 0.2), 0 20px 60px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.poster-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.poster-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 36px;
+}
+
+@media (max-width: 900px) {
+  .poster-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .poster-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.poster-feature-card {
+  background-color: var(--color-dark-surface);
+  border: 1px solid var(--color-dark-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-xs);
+  padding: 16px 18px;
+  transition: all var(--transition-fast);
+}
+
+.poster-feature-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.poster-feature-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.poster-feature-desc {
+  font-size: 0.82rem;
+  color: var(--color-text-muted-light);
+  line-height: 1.4;
+}
+
+.poster-phone-bar {
+  margin-top: 32px;
+  background: linear-gradient(90deg, #181d24 0%, #12151b 100%);
+  border: 1px solid var(--color-dark-border);
+  border-radius: var(--radius-xs);
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.poster-phone-buttons {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
 /* Barre d'appel mobile flottante */

@@ -45,23 +45,40 @@ export default function ContactLocation() {
               </div>
             </div>
 
-            {/* Coordonnées directes */}
+            {/* Coordonnées directes (Les 2 numéros affichés) */}
             <div className="contact-block">
               <h3 className="contact-block-title">{contactLocation.contactTitle}</h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 <a
                   href={`tel:${business.phoneRaw}`}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "10px",
-                    fontSize: "1.1rem",
+                    fontSize: "1.05rem",
                     fontWeight: 800,
                     color: "#ffffff",
                   }}
+                  title="Ligne 1"
                 >
                   <Phone size={18} color="var(--color-primary)" />
-                  <span>{business.phone}</span>
+                  <span>Ligne 1 : {business.phone}</span>
+                </a>
+
+                <a
+                  href={`tel:${business.phoneSecondaryRaw}`}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    fontSize: "1.05rem",
+                    fontWeight: 800,
+                    color: "#ffffff",
+                  }}
+                  title="Ligne 2"
+                >
+                  <Phone size={18} color="var(--color-primary)" />
+                  <span>Ligne 2 : {business.phoneSecondary}</span>
                 </a>
 
                 <a

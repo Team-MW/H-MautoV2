@@ -259,26 +259,50 @@ export default function AppointmentForm() {
                 <span>{appointment.submitButton.label}</span>
               </button>
 
-              {/* Alternative téléphonique */}
-              <div style={{ textAlign: "center", marginTop: "4px" }}>
+              {/* Alternative téléphonique avec les 2 numéros */}
+              <div style={{ textAlign: "center", marginTop: "8px", display: "flex", flexDirection: "column", gap: "6px" }}>
                 <span style={{ fontSize: "0.85rem", color: "var(--color-text-muted-dark)" }}>
-                  {appointment.phoneAlternative.text}{" "}
+                  {appointment.phoneAlternative.text}
                 </span>
-                <a
-                  href={`tel:${business.phoneRaw}`}
-                  style={{
-                    color: "var(--color-primary)",
-                    fontWeight: 700,
-                    fontSize: "0.88rem",
-                    textDecoration: "underline",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "4px",
-                  }}
-                >
-                  <Phone size={14} />
-                  <span>{appointment.phoneAlternative.label}</span>
-                </a>
+                <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
+                  <a
+                    href={`tel:${business.phoneRaw}`}
+                    style={{
+                      color: "var(--color-text-dark)",
+                      fontWeight: 800,
+                      fontSize: "0.88rem",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      background: "var(--color-light-surface)",
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      border: "1px solid var(--color-light-border)",
+                    }}
+                  >
+                    <Phone size={14} color="var(--color-primary)" />
+                    <span>Ligne 1 : {business.phone}</span>
+                  </a>
+
+                  <a
+                    href={`tel:${business.phoneSecondaryRaw}`}
+                    style={{
+                      color: "var(--color-text-dark)",
+                      fontWeight: 800,
+                      fontSize: "0.88rem",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      background: "var(--color-light-surface)",
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      border: "1px solid var(--color-light-border)",
+                    }}
+                  >
+                    <Phone size={14} color="var(--color-primary)" />
+                    <span>Ligne 2 : {business.phoneSecondary}</span>
+                  </a>
+                </div>
               </div>
             </div>
           </form>

@@ -67,16 +67,29 @@ export default function Navbar() {
               </ul>
             </nav>
 
-            {/* Actions Droite */}
+            {/* Actions Droite avec les 2 numéros */}
             <div className="navbar-actions">
-              <a
-                href={`tel:${business.phoneRaw}`}
-                className="navbar-phone-link"
-                aria-label={navbar.phoneButton.ariaLabel}
-              >
-                <Phone size={17} strokeWidth={2.5} color="var(--color-primary)" />
-                <span className="navbar-phone-text">{business.phone}</span>
-              </a>
+              <div className="navbar-phones-wrap" style={{ display: "flex", gap: "6px" }}>
+                <a
+                  href={`tel:${business.phoneRaw}`}
+                  className="navbar-phone-link"
+                  aria-label={`Appeler la ligne 1 : ${business.phone}`}
+                  title="Ligne 1 HM Auto 24"
+                >
+                  <Phone size={15} strokeWidth={2.5} color="var(--color-primary)" />
+                  <span className="navbar-phone-text">{business.phone}</span>
+                </a>
+
+                <a
+                  href={`tel:${business.phoneSecondaryRaw}`}
+                  className="navbar-phone-link navbar-phone-secondary"
+                  aria-label={`Appeler la ligne 2 : ${business.phoneSecondary}`}
+                  title="Ligne 2 HM Auto 24"
+                >
+                  <Phone size={15} strokeWidth={2.5} color="var(--color-primary)" />
+                  <span className="navbar-phone-text">{business.phoneSecondary}</span>
+                </a>
+              </div>
 
               <Link href={navbar.ctaButton.href} className="btn btn-primary navbar-cta-desktop">
                 <span>{navbar.ctaButton.label}</span>
@@ -98,7 +111,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Menu tiroir mobile - Rendu HORS du header pour éviter tout bug de stacking context lié au backdrop-filter */}
+      {/* Menu tiroir mobile - Rendu HORS du header pour un affichage plein écran garanti */}
       <div
         className={`mobile-drawer-overlay ${isMobileMenuOpen ? "open" : ""}`}
         onClick={closeMenu}
@@ -141,7 +154,7 @@ export default function Navbar() {
             </ul>
           </div>
 
-          {/* Bas du tiroir : Coordonnées rapides & Actions */}
+          {/* Bas du tiroir : Les 2 numéros d'appel & Actions */}
           <div className="mobile-drawer-footer">
             <div className="mobile-drawer-info">
               <p className="mobile-drawer-info-item">
@@ -154,19 +167,30 @@ export default function Navbar() {
               </p>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {/* Deux boutons d'appel direct dans le tiroir mobile */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               <a
                 href={`tel:${business.phoneRaw}`}
                 className="btn btn-outline-white"
-                style={{ width: "100%", padding: "12px" }}
+                style={{ width: "100%", padding: "10px 14px", fontSize: "0.82rem" }}
               >
-                <Phone size={16} />
-                <span>{business.phone}</span>
+                <Phone size={15} color="var(--color-primary)" />
+                <span>Ligne 1 : {business.phone}</span>
               </a>
+
+              <a
+                href={`tel:${business.phoneSecondaryRaw}`}
+                className="btn btn-outline-white"
+                style={{ width: "100%", padding: "10px 14px", fontSize: "0.82rem" }}
+              >
+                <Phone size={15} color="var(--color-primary)" />
+                <span>Ligne 2 : {business.phoneSecondary}</span>
+              </a>
+
               <Link
                 href={navbar.ctaButton.href}
                 className="btn btn-primary"
-                style={{ width: "100%", padding: "12px" }}
+                style={{ width: "100%", padding: "12px", marginTop: "4px" }}
                 onClick={closeMenu}
               >
                 <span>{navbar.ctaButton.label}</span>

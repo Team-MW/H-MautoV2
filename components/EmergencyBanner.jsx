@@ -14,13 +14,13 @@ export default function EmergencyBanner() {
         <div className="emergency-wrapper">
           <div className="emergency-info">
             <div className="emergency-icon-wrap" aria-hidden="true">
-              <AlertCircle size={22} />
+              <AlertCircle size={22} color="var(--color-primary)" />
             </div>
             <div>
               <span className="eyebrow" style={{ marginBottom: "4px" }}>{emergency.eyebrow}</span>
               <h2 className="emergency-title">{emergency.title}</h2>
               <p className="emergency-desc">{emergency.description}</p>
-              <small style={{ display: "block", color: "var(--color-primary-soft)", marginTop: "4px", fontSize: "0.78rem" }}>
+              <small style={{ display: "block", color: "var(--color-primary)", marginTop: "4px", fontSize: "0.8rem", fontWeight: 700 }}>
                 {emergency.scheduleNotice}
               </small>
             </div>
@@ -30,14 +30,23 @@ export default function EmergencyBanner() {
             <a
               href={`tel:${business.phoneRaw}`}
               className="btn btn-primary"
-              aria-label={emergency.phoneLabel}
+              aria-label={`Appeler la ligne 1 au ${business.phone}`}
             >
               <Phone size={16} strokeWidth={2.5} />
               <span>{business.phone}</span>
             </a>
 
             <a
-              href={`${business.whatsappLink}?text=${encodeURIComponent("Bonjour HM AUTO, j'ai une urgence mécanique / voyant moteur.")}`}
+              href={`tel:${business.phoneSecondaryRaw}`}
+              className="btn btn-outline-white"
+              aria-label={`Appeler la ligne 2 au ${business.phoneSecondary}`}
+            >
+              <Phone size={16} strokeWidth={2.5} color="var(--color-primary)" />
+              <span>{business.phoneSecondary}</span>
+            </a>
+
+            <a
+              href={`${business.whatsappLink}?text=${encodeURIComponent("Bonjour HM Auto 24, j'ai une urgence mécanique / voyant moteur.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline-white"
