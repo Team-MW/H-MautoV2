@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import EmergencyBanner from "@/components/EmergencyBanner";
 import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
+import FaqSection from "@/components/FaqSection";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = {
@@ -91,33 +92,15 @@ export default function PrestationsPage() {
           </div>
         </section>
 
-        {/* FAQ Technique */}
-        <section className="faq-section">
-          <div className="container">
-            <div className="section-header-centered">
-              <span className="eyebrow">TRANSPARENCE & CONSEILS</span>
-              <h2 className="heading-lg" style={{ color: "var(--color-text-dark)" }}>
-                {prestationsPage.faq.title}
-              </h2>
-            </div>
-
-            <div className="faq-grid">
-              {prestationsPage.faq.items.map((faq, idx) => (
-                <div key={idx} className="faq-card">
-                  <h3 className="faq-question">{faq.q}</h3>
-                  <p className="faq-answer">{faq.a}</p>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ textAlign: "center", marginTop: "44px" }}>
-              <Link href="/contact" className="btn btn-primary">
-                <span>Prendre contact avec notre mécanicien</span>
-                <ArrowRight size={16} strokeWidth={2.5} />
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* FAQ Technique Accordion */}
+        <FaqSection
+          eyebrow={prestationsPage.faq.eyebrow}
+          title={prestationsPage.faq.title}
+          subtitle={prestationsPage.faq.subtitle}
+          items={prestationsPage.faq.items}
+          ctaLabel="Demander un devis pour votre véhicule"
+          ctaHref="/contact"
+        />
       </main>
       <Footer />
       <MobileCallBar />

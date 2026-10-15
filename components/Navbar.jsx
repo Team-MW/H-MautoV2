@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Menu, X, ArrowRight, ChevronRight, Clock, MapPin } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Phone, Menu, X, ArrowRight, ChevronRight, Clock, MapPin, Calendar } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
   const { business, navbar } = siteConfig;
 
   // Verrouille le défilement en arrière-plan lorsque le menu mobile est ouvert
@@ -25,6 +27,17 @@ export default function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
+  // Ferme le tiroir sur appui de la touche Échap
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileMenuOpen]);
+
   const toggleMenu = (e) => {
     e.stopPropagation();
     setIsMobileMenuOpen((prev) => !prev);
@@ -39,9 +52,9 @@ export default function Navbar() {
       <header className="navbar-header">
         <div className="container">
           <div className="navbar-container">
-            {/* Logo avec dimensionnement fluide */}
+            {/* Logo officiel HM Auto 24 */}
             <Link
-              href="#hero"
+              href="/"
               className="navbar-logo"
               onClick={closeMenu}
               aria-label={`${business.name} - Retour à l'accueil`}
@@ -57,62 +70,84 @@ export default function Navbar() {
             </Link>
 
             {/* Navigation Desktop */}
-            <nav aria-label="Navigation principale">
+            <nav aria-label="Navigation principale" className="navbar-nav-wrap">
               <ul className="navbar-nav">
-                {navbar.navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href}>{link.label}</Link>
-                  </li>
-                ))}
+                {navbar.navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className={isActive ? "active" : ""}
+                        aria-current={isActive ? "page" : undefined}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
 
-            {/* Actions Droite avec les 2 numéros */}
+            {/* Actions Droite (Téléphones + CTA + Burger) */}
             <div className="navbar-actions">
-              <div className="navbar-phones-wrap" style={{ display: "flex", gap: "6px" }}>
-                <a
-                  href={`tel:${business.phoneRaw}`}
-                  className="navbar-phone-link"
-                  aria-label={`Appeler la ligne 1 : ${business.phone}`}
-                  title="Ligne 1 HM Auto 24"
-                >
-                  <Phone size={15} strokeWidth={2.5} color="var(--color-primary)" />
+              {/* Ligne 1 - Toujours visible sur desktop & tablette */}
+              <a
+                href={`tel:${business.phoneRaw}`}
+                className="navbar-phone-link navbar-phone-primary"
+                aria-label={`Appeler la ligne 1 : ${business.phone}`}
+                title="Ligne 1 HM Auto 24 (Atelier & Dépannage)"
+              >
+                <div className="navbar-phone-icon-box">
+                  <Phone size={15} strokeWidth={2.5} />
+                </div>
+                <div className="navbar-phone-info">
+                  <span className="navbar-phone-sub">Ligne 1 • Atelier</span>
                   <span className="navbar-phone-text">{business.phone}</span>
-                </a>
+                </div>
+              </a>
 
-                <a
-                  href={`tel:${business.phoneSecondaryRaw}`}
-                  className="navbar-phone-link navbar-phone-secondary"
-                  aria-label={`Appeler la ligne 2 : ${business.phoneSecondary}`}
-                  title="Ligne 2 HM Auto 24"
-                >
-                  <Phone size={15} strokeWidth={2.5} color="var(--color-primary)" />
+              {/* Ligne 2 - Visible sur grands écrans */}
+              <a
+                href={`tel:${business.phoneSecondaryRaw}`}
+                className="navbar-phone-link navbar-phone-secondary"
+                aria-label={`Appeler la ligne 2 : ${business.phoneSecondary}`}
+                title="Ligne 2 HM Auto 24 (Vente & Reprise)"
+              >
+                <div className="navbar-phone-icon-box">
+                  <Phone size={15} strokeWidth={2.5} />
+                </div>
+                <div className="navbar-phone-info">
+                  <span className="navbar-phone-sub">Ligne 2 • Vente</span>
                   <span className="navbar-phone-text">{business.phoneSecondary}</span>
-                </a>
-              </div>
+                </div>
+              </a>
 
+              {/* Bouton RDV Desktop */}
               <Link href={navbar.ctaButton.href} className="btn btn-primary navbar-cta-desktop">
+                <Calendar size={15} strokeWidth={2.5} />
                 <span>{navbar.ctaButton.label}</span>
-                <ArrowRight size={15} strokeWidth={2.5} />
               </Link>
 
-              {/* Bouton burger mobile */}
+              {/* Bouton burger mobile responsive */}
               <button
                 type="button"
-                className="navbar-burger"
+                className={`navbar-burger ${isMobileMenuOpen ? "is-active" : ""}`}
                 onClick={toggleMenu}
                 aria-label={isMobileMenuOpen ? navbar.menuCloseLabel : navbar.menuOpenLabel}
                 aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-drawer-menu"
               >
-                {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Menu tiroir mobile - Rendu HORS du header pour un affichage plein écran garanti */}
+      {/* Menu tiroir mobile */}
       <div
+        id="mobile-drawer-menu"
         className={`mobile-drawer-overlay ${isMobileMenuOpen ? "open" : ""}`}
         onClick={closeMenu}
         aria-hidden={!isMobileMenuOpen}
@@ -124,13 +159,15 @@ export default function Navbar() {
           {/* Haut du tiroir */}
           <div>
             <div className="mobile-drawer-header">
-              <Image
-                src={business.logo.src}
-                alt={business.logo.alt}
-                width={150}
-                height={34}
-                className="mobile-drawer-logo"
-              />
+              <Link href="/" onClick={closeMenu} className="mobile-drawer-logo-link">
+                <Image
+                  src={business.logo.src}
+                  alt={business.logo.alt}
+                  width={business.logo.width}
+                  height={business.logo.height}
+                  className="mobile-drawer-logo"
+                />
+              </Link>
               <button
                 type="button"
                 onClick={closeMenu}
@@ -141,25 +178,32 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Liens de navigation avec icône chevron et zone tactile optimale */}
+            {/* Liens de navigation avec icône chevron et état actif */}
             <ul className="mobile-nav-links">
-              {navbar.navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} onClick={closeMenu}>
-                    <span>{link.label}</span>
-                    <ChevronRight size={16} color="var(--color-primary)" />
-                  </Link>
-                </li>
-              ))}
+              {navbar.navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={closeMenu}
+                      className={isActive ? "active" : ""}
+                    >
+                      <span>{link.label}</span>
+                      <ChevronRight size={18} className="mobile-nav-chevron" />
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
-          {/* Bas du tiroir : Les 2 numéros d'appel & Actions */}
+          {/* Bas du tiroir : Coordonnées & Les 2 numéros d'appel */}
           <div className="mobile-drawer-footer">
             <div className="mobile-drawer-info">
               <p className="mobile-drawer-info-item">
                 <MapPin size={15} color="var(--color-primary)" />
-                <span>{business.address.city} (24)</span>
+                <span>{business.address.street}, {business.address.city}</span>
               </p>
               <p className="mobile-drawer-info-item">
                 <Clock size={15} color="var(--color-primary)" />
@@ -167,30 +211,37 @@ export default function Navbar() {
               </p>
             </div>
 
-            {/* Deux boutons d'appel direct dans le tiroir mobile */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {/* Boutons d'appel direct dans le tiroir mobile */}
+            <div className="mobile-drawer-actions">
               <a
                 href={`tel:${business.phoneRaw}`}
-                className="btn btn-outline-white"
-                style={{ width: "100%", padding: "10px 14px", fontSize: "0.82rem" }}
+                className="btn btn-outline-white mobile-drawer-call-btn"
               >
-                <Phone size={15} color="var(--color-primary)" />
-                <span>Ligne 1 : {business.phone}</span>
+                <div className="mobile-call-icon">
+                  <Phone size={15} />
+                </div>
+                <div className="mobile-call-text">
+                  <span className="mobile-call-sub">Ligne 1 • Atelier & Dépannage</span>
+                  <span className="mobile-call-num">{business.phone}</span>
+                </div>
               </a>
 
               <a
                 href={`tel:${business.phoneSecondaryRaw}`}
-                className="btn btn-outline-white"
-                style={{ width: "100%", padding: "10px 14px", fontSize: "0.82rem" }}
+                className="btn btn-outline-white mobile-drawer-call-btn"
               >
-                <Phone size={15} color="var(--color-primary)" />
-                <span>Ligne 2 : {business.phoneSecondary}</span>
+                <div className="mobile-call-icon">
+                  <Phone size={15} />
+                </div>
+                <div className="mobile-call-text">
+                  <span className="mobile-call-sub">Ligne 2 • Vente & Reprise</span>
+                  <span className="mobile-call-num">{business.phoneSecondary}</span>
+                </div>
               </a>
 
               <Link
                 href={navbar.ctaButton.href}
-                className="btn btn-primary"
-                style={{ width: "100%", padding: "12px", marginTop: "4px" }}
+                className="btn btn-primary mobile-drawer-cta-btn"
                 onClick={closeMenu}
               >
                 <span>{navbar.ctaButton.label}</span>

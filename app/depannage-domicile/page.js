@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Phone, MessageSquare, MapPin, Zap, Wrench, Shield, ArrowRight, Star } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
 import { siteConfig } from "@/lib/site";
@@ -136,6 +137,16 @@ export default function DepannageDomicilePage() {
             </div>
           </div>
         </section>
+
+        {/* FAQ Dépannage à Domicile */}
+        <FaqSection
+          eyebrow={depannagePage.faq.eyebrow}
+          title={depannagePage.faq.title}
+          subtitle={depannagePage.faq.subtitle}
+          items={depannagePage.faq.items}
+          ctaLabel="Demander une intervention d'urgence"
+          ctaHref="/contact"
+        />
       </main>
       <Footer />
       <MobileCallBar />

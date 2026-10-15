@@ -16,8 +16,9 @@ export default function Footer() {
               <Image
                 src={business.logo.src}
                 alt={business.logo.alt}
-                width={200}
-                height={46}
+                width={business.logo.width}
+                height={business.logo.height}
+                style={{ width: "auto", height: "44px", objectFit: "contain", display: "block" }}
               />
             </div>
             <p style={{ fontSize: "0.88rem", lineHeight: "1.6", maxWidth: "380px", marginBottom: "16px" }}>

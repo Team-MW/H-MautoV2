@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import EmergencyBanner from "@/components/EmergencyBanner";
 import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
+import FaqSection from "@/components/FaqSection";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = {
@@ -142,6 +143,16 @@ export default function VenteAchatReprisePage() {
             </div>
           </div>
         </section>
+
+        {/* FAQ Vente & Reprise */}
+        <FaqSection
+          eyebrow={venteAchatPage.faq.eyebrow}
+          title={venteAchatPage.faq.title}
+          subtitle={venteAchatPage.faq.subtitle}
+          items={venteAchatPage.faq.items}
+          ctaLabel="Demander une estimation de reprise"
+          ctaHref="/contact"
+        />
       </main>
       <Footer />
       <MobileCallBar />

@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import EmergencyBanner from "@/components/EmergencyBanner";
 import AppointmentForm from "@/components/AppointmentForm";
 import ContactLocation from "@/components/ContactLocation";
+import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
 import { siteConfig } from "@/lib/site";
@@ -12,7 +13,7 @@ export const metadata = {
 };
 
 export default function ContactPage() {
-  const { business } = siteConfig;
+  const { business, contactFaq } = siteConfig;
 
   return (
     <>
@@ -42,6 +43,16 @@ export default function ContactPage() {
 
         {/* Coordonnées complètes & Carte Google Maps */}
         <ContactLocation />
+
+        {/* FAQ Contact & Accès */}
+        <FaqSection
+          eyebrow={contactFaq.eyebrow}
+          title={contactFaq.title}
+          subtitle={contactFaq.subtitle}
+          items={contactFaq.items}
+          ctaLabel="Appeler directement l'atelier"
+          ctaHref={`tel:${business.phoneRaw}`}
+        />
       </main>
       <Footer />
       <MobileCallBar />

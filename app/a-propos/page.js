@@ -4,6 +4,7 @@ import { Check, ArrowRight, ShieldCheck, Award, HeartHandshake, Phone } from "lu
 import Navbar from "@/components/Navbar";
 import WhyUs from "@/components/WhyUs";
 import Reviews from "@/components/Reviews";
+import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
 import { siteConfig } from "@/lib/site";
@@ -84,6 +85,16 @@ export default function AProposPage() {
 
         {/* Preuve sociale Google */}
         <Reviews />
+
+        {/* FAQ Atelier & Valeurs */}
+        <FaqSection
+          eyebrow={aProposPage.faq.eyebrow}
+          title={aProposPage.faq.title}
+          subtitle={aProposPage.faq.subtitle}
+          items={aProposPage.faq.items}
+          ctaLabel="Prendre contact avec notre équipe"
+          ctaHref="/contact"
+        />
       </main>
       <Footer />
       <MobileCallBar />
