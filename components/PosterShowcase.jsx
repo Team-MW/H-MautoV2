@@ -46,6 +46,17 @@ export default function PosterShowcase() {
           ))}
         </div>
 
+        <div style={{ marginTop: "24px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/prestations" className="btn btn-outline-white" style={{ fontSize: "0.82rem" }}>
+            <span>Voir le détail des prestations</span>
+            <ArrowRight size={14} />
+          </Link>
+          <Link href="/vente-achat-reprise" className="btn btn-primary" style={{ fontSize: "0.82rem" }}>
+            <span>Pôle Vente • Achat • Reprise</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+
         {/* Bandeau d'appels directs pour les 2 numéros */}
         <div className="poster-phone-bar">
           <div>

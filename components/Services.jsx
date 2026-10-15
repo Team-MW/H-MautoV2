@@ -68,7 +68,7 @@ export default function Services() {
 
                 <div style={{ marginTop: "10px" }}>
                   <Link
-                    href={`#rendez-vous`}
+                    href="/prestations"
                     className="btn-outline-card"
                     aria-label={`${services.ctaCardLabel} - ${item.title}`}
                   >

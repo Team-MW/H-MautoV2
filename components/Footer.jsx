@@ -57,7 +57,7 @@ export default function Footer() {
             <ul className="footer-nav-list">
               {services.items.map((item) => (
                 <li key={item.id}>
-                  <Link href="#services">{item.title}</Link>
+                  <Link href="/prestations">{item.title}</Link>
                 </li>
               ))}
             </ul>
@@ -67,8 +67,13 @@ export default function Footer() {
         {/* Bas de page et mentions */}
         <div className="footer-bottom">
           <div>{footer.copyright}</div>
-          <div style={{ color: "var(--color-text-muted-light)", fontSize: "0.75rem", maxWidth: "600px" }}>
-            {footer.legalNotice}
+          <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
+            <Link href="/mentions-legales" style={{ textDecoration: "underline", color: "var(--color-text-muted-light)" }}>
+              Mentions Légales &amp; RGPD
+            </Link>
+            <span style={{ color: "var(--color-text-muted-light)", fontSize: "0.75rem", maxWidth: "600px" }}>
+              {footer.legalNotice}
+            </span>
           </div>
         </div>
       </div>
