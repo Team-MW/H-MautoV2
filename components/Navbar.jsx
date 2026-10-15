@@ -89,43 +89,21 @@ export default function Navbar() {
               </ul>
             </nav>
 
-            {/* Actions Droite (Téléphones + CTA + Burger) */}
+            {/* Actions Droite (Épurée & Aérée) */}
             <div className="navbar-actions">
-              {/* Ligne 1 - Toujours visible sur desktop & tablette */}
+              {/* Numéro direct compact */}
               <a
                 href={`tel:${business.phoneRaw}`}
-                className="navbar-phone-link navbar-phone-primary"
-                aria-label={`Appeler la ligne 1 : ${business.phone}`}
-                title="Ligne 1 HM Auto 24 (Atelier & Dépannage)"
+                className="navbar-phone-pill"
+                aria-label={`Appeler l'atelier : ${business.phone}`}
+                title="Ligne directe HM Auto 24"
               >
-                <div className="navbar-phone-icon-box">
-                  <Phone size={15} strokeWidth={2.5} />
-                </div>
-                <div className="navbar-phone-info">
-                  <span className="navbar-phone-sub">Ligne 1 • Atelier</span>
-                  <span className="navbar-phone-text">{business.phone}</span>
-                </div>
-              </a>
-
-              {/* Ligne 2 - Visible sur grands écrans */}
-              <a
-                href={`tel:${business.phoneSecondaryRaw}`}
-                className="navbar-phone-link navbar-phone-secondary"
-                aria-label={`Appeler la ligne 2 : ${business.phoneSecondary}`}
-                title="Ligne 2 HM Auto 24 (Vente & Reprise)"
-              >
-                <div className="navbar-phone-icon-box">
-                  <Phone size={15} strokeWidth={2.5} />
-                </div>
-                <div className="navbar-phone-info">
-                  <span className="navbar-phone-sub">Ligne 2 • Vente</span>
-                  <span className="navbar-phone-text">{business.phoneSecondary}</span>
-                </div>
+                <Phone size={14} strokeWidth={2.5} color="var(--color-primary)" />
+                <span className="navbar-phone-text">{business.phone}</span>
               </a>
 
               {/* Bouton RDV Desktop */}
               <Link href={navbar.ctaButton.href} className="btn btn-primary navbar-cta-desktop">
-                <Calendar size={15} strokeWidth={2.5} />
                 <span>{navbar.ctaButton.label}</span>
               </Link>
 
@@ -138,7 +116,7 @@ export default function Navbar() {
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-drawer-menu"
               >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
             </div>
           </div>

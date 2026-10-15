@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Phone, MapPin, ShieldCheck, Zap } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 
 export default function Hero() {
-  const { hero } = siteConfig;
+  const { hero, business } = siteConfig;
 
   return (
     <section id="hero" className="hero-section">
@@ -39,16 +39,61 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Visuel automobile soigné */}
-          <div className="hero-visual">
-            <Image
-              src={hero.image.src}
-              alt={hero.image.alt}
-              width={hero.image.width}
-              height={hero.image.height}
-              priority
-              className="hero-visual-image"
-            />
+          {/* Remplacement du visuel par le Logo Officiel HM Auto 24 */}
+          <div className="hero-brand-card">
+            <div className="hero-brand-glow"></div>
+            <div className="hero-brand-inner">
+              <div className="hero-brand-badge-top">
+                <span className="hero-brand-dot"></span>
+                <span>Atelier Officiel • Bergerac (24)</span>
+              </div>
+
+              {/* Logo Officiel en grand */}
+              <div className="hero-brand-logo-wrap">
+                <Image
+                  src={business.logo.src}
+                  alt={business.logo.alt}
+                  width={business.logo.width}
+                  height={business.logo.height}
+                  priority
+                  className="hero-brand-logo-img"
+                />
+              </div>
+
+              <div className="hero-brand-divider"></div>
+
+              {/* Piliers du garage */}
+              <div className="hero-brand-highlights">
+                <div className="hero-highlight-pill">
+                  <Zap size={14} color="var(--color-primary)" />
+                  <span>Diagnostic immédiat</span>
+                </div>
+                <div className="hero-highlight-pill">
+                  <ShieldCheck size={14} color="var(--color-primary)" />
+                  <span>Batterie à domicile</span>
+                </div>
+                <div className="hero-highlight-pill">
+                  <span style={{ color: "var(--color-primary)", fontWeight: 800 }}>★</span>
+                  <span>5/5 sur Google</span>
+                </div>
+              </div>
+
+              {/* Coordonnées rapides */}
+              <div className="hero-brand-footer">
+                <div className="hero-brand-location">
+                  <MapPin size={15} color="var(--color-primary)" />
+                  <span>{business.address.full}</span>
+                </div>
+                <a
+                  href={`tel:${business.phoneRaw}`}
+                  className="hero-brand-call-link"
+                  aria-label={`Appeler le ${business.phone}`}
+                >
+                  <Phone size={14} />
+                  <span>{business.phone}</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
