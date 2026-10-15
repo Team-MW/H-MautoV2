@@ -10,7 +10,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="container">
         <div className="footer-grid">
-          {/* Marque et présentation */}
+          {/* Marque et présentatioddedn */}
           <div>
             <div style={{ marginBottom: "16px" }}>
               <Image
