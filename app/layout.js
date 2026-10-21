@@ -59,6 +59,7 @@ export default function RootLayout({ children }) {
       latitude: siteConfig.business.geo.latitude,
       longitude: siteConfig.business.geo.longitude,
     },
+    sameAs: [siteConfig.business.tiktok],
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",

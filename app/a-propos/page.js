@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check, ArrowRight, ShieldCheck, Award, HeartHandshake, Phone } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import WhyUs from "@/components/WhyUs";
+import DiscoverTikTok from "@/components/DiscoverTikTok";
 import Reviews from "@/components/Reviews";
 import FaqSection from "@/components/FaqSection";
 import Footer from "@/components/Footer";
@@ -82,6 +83,9 @@ export default function AProposPage() {
 
         {/* Section Engagements */}
         <WhyUs />
+
+        {/* Nous découvrir sur TikTok */}
+        <DiscoverTikTok />
 
         {/* Preuve sociale Google */}
         <Reviews />

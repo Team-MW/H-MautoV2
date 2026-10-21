@@ -4,6 +4,7 @@ import EmergencyBanner from "@/components/EmergencyBanner";
 import PosterShowcase from "@/components/PosterShowcase";
 import Services from "@/components/Services";
 import WhyUs from "@/components/WhyUs";
+import DiscoverTikTok from "@/components/DiscoverTikTok";
 import AppointmentForm from "@/components/AppointmentForm";
 import Reviews from "@/components/Reviews";
 import FaqSection from "@/components/FaqSection";
@@ -24,6 +25,7 @@ export default function Home() {
         <PosterShowcase />
         <Services />
         <WhyUs />
+        <DiscoverTikTok />
         <AppointmentForm />
         <Reviews />
         <FaqSection
