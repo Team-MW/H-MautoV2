@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Phone, MapPin, ShieldCheck, Zap } from "lucide-react";
 import { siteConfig } from "@/lib/site";
+import OpenStatus from "@/components/OpenStatus";
 
 export default function Hero() {
   const { hero, business } = siteConfig;
@@ -59,6 +60,8 @@ export default function Hero() {
                   className="hero-brand-logo-img"
                 />
               </div>
+
+              <OpenStatus tone="dark" className="hero-open-status" />
 
               <div className="hero-brand-divider"></div>
 

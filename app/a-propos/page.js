@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Check, ArrowRight, ShieldCheck, Award, HeartHandshake, Phone } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import PageHero from "@/components/PageHero";
 import WhyUs from "@/components/WhyUs";
 import DiscoverTikTok from "@/components/DiscoverTikTok";
 import Reviews from "@/components/Reviews";
@@ -10,9 +11,15 @@ import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
 import { siteConfig } from "@/lib/site";
 
+const title = "À Propos de l'Atelier HM Auto 24 | Garage Mécanique Bergerac";
+const description =
+  "Découvrez l'atelier HM Auto 24 à Bergerac : valeurs artisanales, rigueur technique, diagnostic immédiat et relation de confiance.";
+
 export const metadata = {
-  title: "À Propos de l'Atelier HM Auto 24 | Garage Mécanique Bergerac",
-  description: "Découvrez l'atelier HM Auto 24 à Bergerac : valeurs artisanales, rigueur technique, diagnostic immédiat et relation de confiance.",
+  title,
+  description,
+  alternates: { canonical: "/a-propos" },
+  openGraph: { title, description, url: "/a-propos" },
 };
 
 export default function AProposPage() {
@@ -22,43 +29,42 @@ export default function AProposPage() {
     <>
       <Navbar />
       <main id="main-content">
-        {/* En-tête */}
-        <section className="subpage-hero">
+        <PageHero
+          eyebrow={aProposPage.hero.eyebrow}
+          title={aProposPage.hero.title}
+          subtitle={aProposPage.hero.subtitle}
+          path="/a-propos"
+          crumb="À propos"
+        />
+
+        {/* Chiffres clés */}
+        <section className="stats-strip" aria-label="Chiffres clés">
           <div className="container">
-            <div className="subpage-hero-centered">
-              <span className="eyebrow">{aProposPage.hero.eyebrow}</span>
-              <h1 className="heading-xl" style={{ color: "#ffffff" }}>
-                {aProposPage.hero.title}
-              </h1>
-              <p className="subpage-lead">
-                {aProposPage.hero.subtitle}
-              </p>
-            </div>
+            <dl className="stats-grid">
+              {aProposPage.stats.map((stat) => (
+                <div key={stat.label} className="stat-item">
+                  <dt className="stat-label">{stat.label}</dt>
+                  <dd className="stat-value">{stat.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
 
         {/* Histoire & Vision de l'atelier */}
         <section className="subpage-content-section">
           <div className="container">
-            <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "56px", alignItems: "center" }}>
+            <div className="story-grid">
               <div>
                 <span className="eyebrow">SAVOIR-FAIRE & RIGUEUR</span>
-                <h2 className="heading-lg" style={{ color: "var(--color-text-dark)", marginBottom: "20px" }}>
-                  {aProposPage.story.title}
-                </h2>
-                <p style={{ fontSize: "1.02rem", color: "var(--color-text-dark)", lineHeight: "1.7", marginBottom: "16px" }}>
-                  {aProposPage.story.p1}
-                </p>
-                <p style={{ fontSize: "0.98rem", color: "var(--color-text-muted-dark)", lineHeight: "1.7", marginBottom: "16px" }}>
-                  {aProposPage.story.p2}
-                </p>
-                <p style={{ fontSize: "0.98rem", color: "var(--color-text-muted-dark)", lineHeight: "1.7", marginBottom: "28px" }}>
-                  {aProposPage.story.p3}
-                </p>
+                <h2 className="heading-lg split-title">{aProposPage.story.title}</h2>
+                <p className="story-p story-p-lead">{aProposPage.story.p1}</p>
+                <p className="story-p">{aProposPage.story.p2}</p>
+                <p className="story-p">{aProposPage.story.p3}</p>
 
-                <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+                <div className="btn-row" style={{ marginTop: "28px" }}>
                   <Link href="/contact" className="btn btn-primary">
-                    <span>Prendre contact avec l'atelier</span>
+                    <span>Contacter l'atelier</span>
                     <ArrowRight size={16} strokeWidth={2.5} />
                   </Link>
                   <a href={`tel:${business.phoneRaw}`} className="btn btn-outline-dark">
@@ -68,35 +74,33 @@ export default function AProposPage() {
                 </div>
               </div>
 
-              {/* Visuel atelier */}
-              <div style={{ position: "relative", borderRadius: "var(--radius-sm)", overflow: "hidden", height: "460px", boxShadow: "var(--shadow-lg)" }}>
+              <div className="story-visual">
                 <Image
                   src="/images/mechanic_lift.jpg"
-                  alt="Mécanicien attentif chez HM Auto 24"
+                  alt="Mécanicien au travail chez HM Auto 24 à Bergerac"
                   fill
+                  sizes="(max-width: 992px) 100vw, 45vw"
                   style={{ objectFit: "cover" }}
                 />
+                <div className="story-visual-caption">
+                  <strong>{business.name}</strong>
+                  <span>{business.address.full}</span>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Section Engagements */}
-        <WhyUs />
-
-        {/* Nous découvrir sur TikTok */}
+        <WhyUs showImage={false} />
         <DiscoverTikTok />
-
-        {/* Preuve sociale Google */}
         <Reviews />
 
-        {/* FAQ Atelier & Valeurs */}
         <FaqSection
           eyebrow={aProposPage.faq.eyebrow}
           title={aProposPage.faq.title}
           subtitle={aProposPage.faq.subtitle}
           items={aProposPage.faq.items}
-          ctaLabel="Prendre contact avec notre équipe"
+          ctaLabel="Contacter notre équipe"
           ctaHref="/contact"
         />
       </main>

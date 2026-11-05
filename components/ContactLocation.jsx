@@ -1,5 +1,6 @@
 import { MapPin, Phone, Mail, Clock, Navigation } from "lucide-react";
 import { siteConfig } from "@/lib/site";
+import OpenStatus from "@/components/OpenStatus";
 
 export default function ContactLocation() {
   if (!siteConfig.sectionsVisibility.contactLocation) {
@@ -103,6 +104,7 @@ export default function ContactLocation() {
                 <Clock size={16} color="var(--color-primary)" />
                 <span>{contactLocation.hoursTitle}</span>
               </h3>
+              <OpenStatus tone="dark" />
               <ul className="contact-hours-list">
                 {business.hours.map((item, idx) => (
                   <li key={idx} className="contact-hours-item">

@@ -13,6 +13,10 @@ import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
 import { siteConfig } from "@/lib/site";
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default function Home() {
   const { homeFaq } = siteConfig;
 

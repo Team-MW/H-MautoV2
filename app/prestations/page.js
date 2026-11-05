@@ -1,16 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Check, ArrowRight, Phone, HelpCircle } from "lucide-react";
+import { Check, ArrowRight, Phone } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import PageHero from "@/components/PageHero";
 import EmergencyBanner from "@/components/EmergencyBanner";
+import CtaBand from "@/components/CtaBand";
 import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
 import FaqSection from "@/components/FaqSection";
 import { siteConfig } from "@/lib/site";
 
+const title = "Prestations & Mécanique à Bergerac | HM Auto 24";
+const description =
+  "Diagnostic électronique immédiat, mécanique générale, vidange constructeur, freinage et suspension à Bergerac. Devis transparent sans surprise.";
+
 export const metadata = {
-  title: "Prestations & Mécanique à Bergerac | HM Auto 24",
-  description: "Diagnostic électronique immédiat, mécanique générale, vidange constructeur, freinage et suspension à Bergerac. Devis transparent sans surprise.",
+  title,
+  description,
+  alternates: { canonical: "/prestations" },
+  openGraph: { title, description, url: "/prestations" },
 };
 
 export default function PrestationsPage() {
@@ -20,52 +28,61 @@ export default function PrestationsPage() {
     <>
       <Navbar />
       <main id="main-content">
-        {/* En-tête de la page */}
-        <section className="subpage-hero">
-          <div className="container">
-            <div className="subpage-hero-centered">
-              <span className="eyebrow">{prestationsPage.hero.eyebrow}</span>
-              <h1 className="heading-xl" style={{ color: "#ffffff" }}>
-                {prestationsPage.hero.title}
-              </h1>
-              <p className="subpage-lead">
-                {prestationsPage.hero.subtitle}
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageHero
+          eyebrow={prestationsPage.hero.eyebrow}
+          title={prestationsPage.hero.title}
+          subtitle={prestationsPage.hero.subtitle}
+          path="/prestations"
+          crumb="Prestations"
+        />
 
         <EmergencyBanner />
 
+        {/* Sommaire des prestations */}
+        <nav className="page-toc" aria-label="Sommaire des prestations">
+          <div className="container">
+            <ul className="page-toc-list">
+              {prestationsPage.sections.map((sec) => (
+                <li key={sec.id}>
+                  <a href={`#${sec.id}`}>
+                    <span className="page-toc-num">{sec.number}</span>
+                    <span>{sec.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
         {/* Détail complet de chaque prestation */}
-        <section className="subpage-content-section">
+        <section className="subpage-content-section subpage-content-tight">
           <div className="container">
             {prestationsPage.sections.map((sec, idx) => (
               <article
                 key={sec.id}
+                id={sec.id}
                 className={`service-detail-block ${idx % 2 !== 0 ? "reverse" : ""}`}
               >
-                {/* Colonne texte */}
                 <div className="service-detail-text">
                   <span className="service-detail-number">{sec.number}</span>
-                  <h2 className="heading-md" style={{ color: "var(--color-text-dark)" }}>
-                    {sec.title}
-                  </h2>
+                  <h2 className="heading-md">{sec.title}</h2>
                   <p className="service-detail-lead">{sec.lead}</p>
                   <p className="service-detail-desc">{sec.content}</p>
 
                   <ul className="service-detail-points">
-                    {sec.points.map((pt, pIdx) => (
-                      <li key={pIdx} className="service-detail-point-item">
-                        <Check size={18} color="var(--color-primary)" style={{ flexShrink: 0, marginTop: "2px" }} />
+                    {sec.points.map((pt) => (
+                      <li key={pt} className="service-detail-point-item">
+                        <span className="check-dot" aria-hidden="true">
+                          <Check size={13} strokeWidth={3} />
+                        </span>
                         <span>{pt}</span>
                       </li>
                     ))}
                   </ul>
 
-                  <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                  <div className="btn-row">
                     <Link href="/contact#formulaire" className="btn btn-primary">
-                      <span>Demander un devis pour ce service</span>
+                      <span>Demander un devis</span>
                       <ArrowRight size={15} strokeWidth={2.5} />
                     </Link>
                     <a href={`tel:${business.phoneRaw}`} className="btn btn-outline-dark">
@@ -75,7 +92,6 @@ export default function PrestationsPage() {
                   </div>
                 </div>
 
-                {/* Colonne visuelle */}
                 <div className="service-detail-media">
                   <div className="service-detail-image-wrap">
                     <Image
@@ -85,21 +101,27 @@ export default function PrestationsPage() {
                       sizes="(max-width: 992px) 100vw, 50vw"
                       style={{ objectFit: "cover" }}
                     />
+                    <span className="service-detail-badge">{sec.number}</span>
                   </div>
                 </div>
               </article>
             ))}
+
+            <CtaBand
+              title="Une panne ou un entretien à prévoir ?"
+              text="Devis gratuit et sans engagement, aucun travail engagé sans votre accord."
+              whatsappMessage="Bonjour HM Auto 24, je souhaite un devis pour mon véhicule."
+            />
           </div>
         </section>
 
-        {/* FAQ Technique Accordion */}
         <FaqSection
           eyebrow={prestationsPage.faq.eyebrow}
           title={prestationsPage.faq.title}
           subtitle={prestationsPage.faq.subtitle}
           items={prestationsPage.faq.items}
-          ctaLabel="Demander un devis pour votre véhicule"
-          ctaHref="/contact"
+          ctaLabel="Demander un devis"
+          ctaHref="/contact#formulaire"
         />
       </main>
       <Footer />

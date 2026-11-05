@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, HelpCircle, Phone, ArrowRight } from "lucide-react";
 import { siteConfig } from "@/lib/site";
@@ -15,6 +15,7 @@ export default function FaqSection({
 }) {
   // Par défaut, la première question est ouverte
   const [openIndices, setOpenIndices] = useState([0]);
+  const baseId = useId();
   const { business } = siteConfig;
 
   const toggleIndex = (index) => {
@@ -51,7 +52,7 @@ export default function FaqSection({
         {/* En-tête de section */}
         <div className="section-header-centered">
           <span className="eyebrow">{eyebrow}</span>
-          <h2 className="heading-lg" style={{ color: "var(--color-text-dark)" }}>
+          <h2 className="heading-lg">
             {title}
           </h2>
           {subtitle && (
@@ -65,8 +66,8 @@ export default function FaqSection({
         <div className="faq-accordion-list">
           {items.map((item, index) => {
             const isOpen = openIndices.includes(index);
-            const questionId = `faq-q-${index}`;
-            const answerId = `faq-a-${index}`;
+            const questionId = `${baseId}-q-${index}`;
+            const answerId = `${baseId}-a-${index}`;
 
             return (
               <div
@@ -82,12 +83,12 @@ export default function FaqSection({
                   className="faq-question-btn"
                 >
                   <span className="faq-q-left">
-                    <span className="faq-icon-bubble">
+                    <span className="faq-icon-bubble" aria-hidden="true">
                       <HelpCircle size={16} />
                     </span>
                     <span className="faq-question-text">{item.q}</span>
                   </span>
-                  <span className={`faq-chevron-wrapper ${isOpen ? "rotate" : ""}`}>
+                  <span className={`faq-chevron-wrapper ${isOpen ? "rotate" : ""}`} aria-hidden="true">
                     <ChevronDown size={18} />
                   </span>
                 </button>
@@ -111,10 +112,10 @@ export default function FaqSection({
         <div className="faq-footer-cta">
           <div className="faq-footer-box">
             <div className="faq-footer-text">
-              <h4 style={{ color: "var(--color-text-dark)", fontSize: "1.05rem", fontWeight: 800 }}>
+              <p className="faq-footer-title">
                 Vous avez un cas particulier ou une urgence mécanique ?
-              </h4>
-              <p style={{ color: "var(--color-text-muted-dark)", fontSize: "0.9rem", marginTop: "4px" }}>
+              </p>
+              <p className="faq-footer-desc">
                 Notre mécanicien vous répond directement sans attente au téléphone.
               </p>
             </div>
@@ -129,10 +130,17 @@ export default function FaqSection({
                 <span>{business.phone}</span>
               </a>
 
-              <Link href={ctaHref} className="btn btn-primary">
-                <span>{ctaLabel}</span>
-                <ArrowRight size={15} strokeWidth={2.5} />
-              </Link>
+              {ctaHref.startsWith("/") ? (
+                <Link href={ctaHref} className="btn btn-primary">
+                  <span>{ctaLabel}</span>
+                  <ArrowRight size={15} strokeWidth={2.5} />
+                </Link>
+              ) : (
+                <a href={ctaHref} className="btn btn-primary">
+                  <span>{ctaLabel}</span>
+                  <ArrowRight size={15} strokeWidth={2.5} />
+                </a>
+              )}
             </div>
           </div>
         </div>

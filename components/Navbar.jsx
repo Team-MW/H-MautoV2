@@ -6,9 +6,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone, Menu, X, ArrowRight, ChevronRight, Clock, MapPin, Calendar } from "lucide-react";
 import { siteConfig } from "@/lib/site";
+import OpenStatus from "@/components/OpenStatus";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { business, navbar } = siteConfig;
 
@@ -26,6 +28,19 @@ export default function Navbar() {
       document.documentElement.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
+
+  // Ombre portée de la barre dès que la page défile
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Ferme le tiroir à chaque changement de page
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   // Ferme le tiroir sur appui de la touche Échap
   useEffect(() => {
@@ -49,7 +64,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="navbar-header">
+      <header className={`navbar-header ${isScrolled ? "is-scrolled" : ""}`}>
         <div className="container">
           <div className="navbar-container">
             {/* Logo officiel HM Auto 24 */}
@@ -129,6 +144,7 @@ export default function Navbar() {
         className={`mobile-drawer-overlay ${isMobileMenuOpen ? "open" : ""}`}
         onClick={closeMenu}
         aria-hidden={!isMobileMenuOpen}
+        inert={!isMobileMenuOpen}
       >
         <div
           className="mobile-drawer"
@@ -166,6 +182,7 @@ export default function Navbar() {
                       href={link.href}
                       onClick={closeMenu}
                       className={isActive ? "active" : ""}
+                      aria-current={isActive ? "page" : undefined}
                     >
                       <span>{link.label}</span>
                       <ChevronRight size={18} className="mobile-nav-chevron" />
@@ -179,6 +196,7 @@ export default function Navbar() {
           {/* Bas du tiroir : Coordonnées & Les 2 numéros d'appel */}
           <div className="mobile-drawer-footer">
             <div className="mobile-drawer-info">
+              <OpenStatus tone="dark" />
               <p className="mobile-drawer-info-item">
                 <MapPin size={15} color="var(--color-primary)" />
                 <span>{business.address.street}, {business.address.city}</span>

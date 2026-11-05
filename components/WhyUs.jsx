@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { siteConfig } from "@/lib/site";
 
-export default function WhyUs() {
+export default function WhyUs({ showImage = true }) {
   if (!siteConfig.sectionsVisibility.whyUs) {
     return null;
   }
@@ -11,23 +11,19 @@ export default function WhyUs() {
   const { whyUs } = siteConfig;
 
   return (
-    <section id="engagements" className="why-section">
+    <section id="engagements" className={`why-section ${showImage ? "" : "why-section-compact"}`}>
       <div className="container">
-        <div className="why-grid">
-          {/* Colonne gauche : Engagements concrets */}
+        <div className={showImage ? "why-grid" : ""}>
           <div>
             <span className="eyebrow">{whyUs.eyebrow}</span>
-            <h2 className="heading-lg" style={{ color: "var(--color-text-dark)", marginBottom: "18px" }}>
+            <h2 className="heading-lg" style={{ marginBottom: "18px" }}>
               {whyUs.title}
             </h2>
-            <p style={{ color: "var(--color-text-muted-dark)", fontSize: "1.05rem", lineHeight: "1.65" }}>
-              {whyUs.leadParagraph}
-            </p>
+            <p className="why-lead">{whyUs.leadParagraph}</p>
 
-            {/* 4 Engagements concrets */}
             <div className="why-commitments">
-              {whyUs.commitments.map((item, idx) => (
-                <div key={idx} className="commitment-item">
+              {whyUs.commitments.map((item) => (
+                <div key={item.title} className="commitment-item">
                   <h3 className="commitment-title">{item.title}</h3>
                   <p className="commitment-desc">{item.description}</p>
                 </div>
@@ -40,19 +36,21 @@ export default function WhyUs() {
             </Link>
           </div>
 
-          {/* Colonne droite : Visuel avec découpe géométrique et accent bleu (identique à la référence) */}
-          <div className="why-visual-wrapper">
-            <div className="why-visual-accent" aria-hidden="true" />
-            <div className="why-visual-frame">
-              <Image
-                src={whyUs.image.src}
-                alt={whyUs.image.alt}
-                width={whyUs.image.width}
-                height={whyUs.image.height}
-                style={{ objectFit: "cover" }}
-              />
+          {showImage && (
+            <div className="why-visual-wrapper">
+              <div className="why-visual-accent" aria-hidden="true" />
+              <div className="why-visual-frame">
+                <Image
+                  src={whyUs.image.src}
+                  alt={whyUs.image.alt}
+                  width={whyUs.image.width}
+                  height={whyUs.image.height}
+                  sizes="(max-width: 992px) 100vw, 45vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

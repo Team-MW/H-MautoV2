@@ -1,68 +1,106 @@
 import Navbar from "@/components/Navbar";
+import PageHero from "@/components/PageHero";
 import Footer from "@/components/Footer";
 import MobileCallBar from "@/components/MobileCallBar";
 import { siteConfig } from "@/lib/site";
 
+const title = "Mentions Légales & Confidentialité | HM Auto 24";
+const description =
+  "Mentions légales, éditeur du site et politique de confidentialité du garage HM Auto 24 à Bergerac.";
+
 export const metadata = {
-  title: "Mentions Légales & Confidentialité | HM Auto 24",
-  description: "Mentions légales, éditeur du site et politique de confidentialité du garage HM Auto 24 à Bergerac.",
+  title,
+  description,
+  alternates: { canonical: "/mentions-legales" },
+  openGraph: { title, description, url: "/mentions-legales" },
 };
 
 export default function MentionsLegalesPage() {
   const { business } = siteConfig;
 
+  const editorRows = [
+    ["Nom commercial", business.name],
+    ["Raison sociale", business.legalName],
+    business.legalForm && ["Forme juridique", business.legalForm],
+    business.siret && ["SIRET", business.siret],
+    ["Adresse", business.address.full],
+    ["Téléphones", `${business.phone} / ${business.phoneSecondary}`],
+    ["Email", business.email],
+    ["Directeur de la publication", business.manager],
+  ].filter(Boolean);
+
   return (
     <>
       <Navbar />
-      <main id="main-content" style={{ padding: "64px 0", backgroundColor: "#ffffff" }}>
-        <div className="container" style={{ maxWidth: "860px" }}>
-          <h1 className="heading-lg" style={{ marginBottom: "28px" }}>
-            MENTIONS LÉGALES
-          </h1>
+      <main id="main-content">
+        <PageHero
+          eyebrow="INFORMATIONS LÉGALES"
+          title="MENTIONS LÉGALES"
+          subtitle="Éditeur, hébergement, données personnelles et propriété intellectuelle."
+          path="/mentions-legales"
+          crumb="Mentions légales"
+        />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "24px", color: "var(--color-text-muted-dark)", lineHeight: "1.7", fontSize: "0.95rem" }}>
-            <section>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 800, color: "var(--color-text-dark)", marginBottom: "8px" }}>
-                1. Éditeur du site
-              </h2>
-              <p>
-                <strong>Nom commercial :</strong> {business.name}<br />
-                <strong>Raison sociale :</strong> {business.legalName}<br />
-                <strong>Adresse :</strong> {business.address.full}<br />
-                <strong>Téléphones :</strong> {business.phone} / {business.phoneSecondary}<br />
-                <strong>Email :</strong> {business.email}<br />
-                <strong>Directeur de la publication :</strong> {business.manager}
-              </p>
-            </section>
+        <section className="subpage-content-section">
+          <div className="container legal-container">
+            <article className="legal-content">
+              <section>
+                <h2>1. Éditeur du site</h2>
+                <dl className="legal-dl">
+                  {editorRows.map(([label, value]) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
 
-            <section>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 800, color: "var(--color-text-dark)", marginBottom: "8px" }}>
-                2. Hébergement
-              </h2>
-              <p>
-                Le site est hébergé sur une infrastructure cloud haute performance sécurisée (Vercel Inc., 340 S Lemon Ave #1142 Walnut, CA 91789, USA).
-              </p>
-            </section>
+              <section>
+                <h2>2. Hébergement</h2>
+                <p>
+                  Le site est hébergé par Vercel Inc., 340 S Lemon Ave #1142, Walnut, CA 91789, États-Unis
+                  — <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a>.
+                </p>
+              </section>
 
-            <section>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 800, color: "var(--color-text-dark)", marginBottom: "8px" }}>
-                3. Protection des données personnelles (RGPD)
-              </h2>
-              <p>
-                Les informations recueillies via le formulaire de contact ou par WhatsApp sont exclusivement destinées au traitement de votre demande de rendez-vous ou de devis par l'atelier HM Auto 24. Elles ne sont ni cédées, ni louées, ni transmises à des tiers. Conformément à la loi « Informatique et Libertés » et au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant en nous contactant directement à {business.email}.
-              </p>
-            </section>
+              <section>
+                <h2>3. Protection des données personnelles (RGPD)</h2>
+                <p>
+                  Les informations recueillies via le formulaire de contact, par téléphone ou par WhatsApp
+                  sont exclusivement destinées au traitement de votre demande de rendez-vous ou de devis par
+                  l'atelier {business.name}. Elles ne sont ni cédées, ni louées, ni transmises à des tiers, et
+                  sont conservées le temps nécessaire au suivi de votre demande.
+                </p>
+                <p>
+                  Conformément à la loi « Informatique et Libertés » et au RGPD, vous disposez d'un droit
+                  d'accès, de rectification, d'opposition et de suppression des données vous concernant en
+                  écrivant à <a href={`mailto:${business.email}`}>{business.email}</a>. Vous pouvez également
+                  adresser une réclamation à la CNIL (cnil.fr).
+                </p>
+              </section>
 
-            <section>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 800, color: "var(--color-text-dark)", marginBottom: "8px" }}>
-                4. Propriété intellectuelle
-              </h2>
-              <p>
-                L'ensemble des contenus graphiques, textes, photographies, logos et éléments sonores ou visuels composant ce site sont la propriété exclusive de {business.name} ou de leurs auteurs respectifs.
-              </p>
-            </section>
+              <section>
+                <h2>4. Services tiers & cookies</h2>
+                <p>
+                  Ce site n'utilise pas de cookies publicitaires. Certaines pages intègrent des contenus de
+                  services tiers (Google Maps pour le plan d'accès, TikTok pour les vidéos, Jotform pour le
+                  formulaire de contact) susceptibles de déposer leurs propres cookies lorsque vous interagissez
+                  avec eux, selon leurs politiques de confidentialité respectives.
+                </p>
+              </section>
+
+              <section>
+                <h2>5. Propriété intellectuelle</h2>
+                <p>
+                  L'ensemble des contenus graphiques, textes, photographies, logos et éléments visuels composant
+                  ce site sont la propriété exclusive de {business.name} ou de leurs auteurs respectifs. Toute
+                  reproduction sans autorisation préalable est interdite.
+                </p>
+              </section>
+            </article>
           </div>
-        </div>
+        </section>
       </main>
       <Footer />
       <MobileCallBar />

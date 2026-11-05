@@ -1,15 +1,32 @@
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site";
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
 export const metadata = {
-  title: siteConfig.seo.title,
+  metadataBase: new URL(siteConfig.seo.siteUrl),
+  title: {
+    default: siteConfig.seo.title,
+    template: "%s",
+  },
   description: siteConfig.seo.description,
   keywords: siteConfig.seo.keywords,
   authors: [{ name: siteConfig.business.name }],
-  metadataBase: new URL(siteConfig.seo.siteUrl),
-  alternates: {
-    canonical: "/",
-  },
+  applicationName: siteConfig.business.name,
+  formatDetection: { telephone: true, address: true, email: true },
   openGraph: {
     title: siteConfig.seo.title,
     description: siteConfig.seo.description,
@@ -19,10 +36,10 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: siteConfig.hero.image.src,
-        width: siteConfig.hero.image.width,
-        height: siteConfig.hero.image.height,
-        alt: siteConfig.hero.image.alt,
+        url: siteConfig.business.poster.src,
+        width: siteConfig.business.poster.width,
+        height: siteConfig.business.poster.height,
+        alt: siteConfig.business.poster.alt,
       },
     ],
   },
@@ -30,67 +47,67 @@ export const metadata = {
     card: "summary_large_image",
     title: siteConfig.seo.title,
     description: siteConfig.seo.description,
-    images: [siteConfig.hero.image.src],
+    images: [siteConfig.business.poster.src],
   },
+  robots: { index: true, follow: true },
+};
+
+export const viewport = {
+  themeColor: "#0d0f12",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }) {
+  const { business, seo } = siteConfig;
+
   // Schema.org Structured Data pour le référencement local (Local SEO)
   const schemaOrgData = {
     "@context": "https://schema.org",
     "@type": "AutoRepair",
-    name: siteConfig.business.name,
-    legalName: siteConfig.business.legalName,
-    image: `${siteConfig.seo.siteUrl}${siteConfig.hero.image.src}`,
-    telephone: siteConfig.business.phoneRaw,
-    email: siteConfig.business.email,
-    url: siteConfig.seo.siteUrl,
+    "@id": `${seo.siteUrl}/#garage`,
+    name: business.name,
+    legalName: business.legalName,
+    slogan: business.slogan,
+    image: `${seo.siteUrl}${business.poster.src}`,
+    logo: `${seo.siteUrl}${business.logo.src}`,
+    telephone: business.phoneRaw,
+    email: business.email,
+    url: seo.siteUrl,
     priceRange: "€€",
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.business.address.street,
-      addressLocality: siteConfig.business.address.city,
-      postalCode: siteConfig.business.address.postalCode,
-      addressRegion: siteConfig.business.address.region,
+      streetAddress: business.address.street,
+      addressLocality: business.address.city,
+      postalCode: business.address.postalCode,
+      addressRegion: business.address.region,
       addressCountry: "FR",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: siteConfig.business.geo.latitude,
-      longitude: siteConfig.business.geo.longitude,
+      latitude: business.geo.latitude,
+      longitude: business.geo.longitude,
     },
-    sameAs: [siteConfig.business.tiktok],
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "08:00",
-        closes: "19:00",
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: "Saturday",
-        opens: "08:30",
-        closes: "13:00",
-      },
-    ],
+    areaServed: { "@type": "City", name: "Bergerac" },
+    sameAs: [business.tiktok],
+    openingHoursSpecification: business.openingHoursSchema.map((slot) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: slot.days,
+      opens: slot.opens,
+      closes: slot.closes,
+    })),
   };
 
   return (
-    <html lang="fr">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
+    <html lang="fr" className={`${inter.variable} ${outfit.variable}`}>
+      <body>
+        <a href="#main-content" className="skip-link">
+          Aller au contenu principal
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgData) }}
         />
-      </head>
-      <body>
         {children}
       </body>
     </html>

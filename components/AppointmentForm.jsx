@@ -7,14 +7,12 @@ import { siteConfig } from "@/lib/site";
 const JOTFORM_ID = "262933603424354";
 
 export default function AppointmentForm() {
-  if (!siteConfig.sectionsVisibility.appointment) {
-    return null;
-  }
-
+  const isVisible = siteConfig.sectionsVisibility.appointment;
   const { appointment, business } = siteConfig;
   const hostRef = useRef(null);
 
   useEffect(() => {
+    if (!isVisible) return;
     const host = hostRef.current;
     if (!host) return;
 
@@ -48,14 +46,18 @@ export default function AppointmentForm() {
       handler.remove();
       host.innerHTML = "";
     };
-  }, []);
+  }, [isVisible]);
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <section id="rendez-vous" className="appointment-section">
       <div className="container">
         <div className="section-header-centered">
           <span className="eyebrow">{appointment.eyebrow}</span>
-          <h2 className="heading-lg" style={{ color: "var(--color-text-dark)" }}>
+          <h2 className="heading-lg">
             {appointment.title}
           </h2>
           <p className="section-description" style={{ marginLeft: "auto", marginRight: "auto" }}>
